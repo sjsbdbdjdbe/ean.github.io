@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>عيد مبارك</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+        body {
+            min-height: 100vh;
+            background: #0a0a0a;
+            font-family: 'Amiri', 'Cairo', 'Tajawal', 'Segoe UI', system-ui, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            cursor: pointer;
+            overflow-x: hidden;
+        }
+        .bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, #111111, #030303);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .star {
+            position: absolute;
+            background: #ffdf8c;
+            border-radius: 50%;
+            box-shadow: 0 0 6px gold;
+            animation: twinkle 2s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.8);}
+            100% { opacity: 1; transform: scale(1);}
+        }
+        .crescent {
+            position: absolute;
+            top: 8%;
+            right: 6%;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle at 30% 30%, #f7e05e, #e4b13b);
+            border-radius: 50%;
+            box-shadow: 0 0 40px #ffc107;
+            z-index: 1;
+        }
+        .crescent::after {
+            content: "";
+            position: absolute;
+            width: 82px;
+            height: 82px;
+            background: #0a0a0a;
+            border-radius: 50%;
+            top: 10px;
+            left: 20px;
+        }
+        .card {
+            position: relative;
+            z-index: 20;
+            max-width: 750px;
+            width: 100%;
+            background: #0f0f0f;
+            border-radius: 70px 40px 70px 40px;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6), 0 0 0 3px #d4af37, 0 0 0 8px rgba(212, 175, 55, 0.3);
+            padding: 30px 25px 40px;
+            text-align: center;
+            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            backdrop-filter: blur(2px);
+        }
+        .card:hover {
+            transform: scale(1.01);
+        }
+        .bubbles-area {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin: 10px 0 20px;
+        }
+        /* تم حذف عناصر المعايدة الثلاثة، إخفاء المنطقة بالكامل */
+        .bubbles-area {
+            display: none;
+        }
+        .greeting-message {
+            background: linear-gradient(135deg, #1f1b10, #0e0c07);
+            padding: 22px 12px;
+            border-radius: 60px;
+            margin: 20px 0;
+            border-right: 4px solid #e4b13b;
+            border-left: 4px solid #e4b13b;
+        }
+        .main-greeting {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f5cb5c, #ffb347);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+            line-height: 1.4;
+        }
+        .open-btn-wrapper {
+            margin: 20px 0 15px;
+        }
+        .open-letter {
+            background: linear-gradient(135deg, #f7b42c, #fc575e);
+            border: none;
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: bold;
+            padding: 14px 38px;
+            border-radius: 60px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.25s;
+            font-family: inherit;
+            box-shadow: 0 8px 20px rgba(252,87,94,0.4);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .open-letter:hover {
+            transform: scale(1.03);
+            box-shadow: 0 12px 28px rgba(252,87,94,0.6);
+            letter-spacing: 1px;
+        }
+        .hidden-message {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.8s ease-out, margin 0.4s, padding 0.3s;
+            background: linear-gradient(145deg, #1d2c1a, #102010);
+            border-radius: 50px;
+            margin: 0;
+            padding: 0 15px;
+            text-align: center;
+            border: 1px solid #ffcf6e;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+        }
+        .hidden-message.show {
+            max-height: 380px;
+            padding: 20px 15px;
+            margin: 15px 0 20px;
+        }
+        .message-content {
+            color: #f9efb2;
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: #00000088;
+            padding: 20px 10px;
+            border-radius: 40px;
+            backdrop-filter: blur(8px);
+            font-family: 'Amiri', cursive;
+            line-height: 1.5;
+            text-shadow: 0 0 3px #ffb347;
+        }
+        .message-content span {
+            display: inline-block;
+            animation: gentlePulse 1.2s infinite;
+        }
+        @keyframes gentlePulse {
+            0% { text-shadow: 0 0 0px #ffdd88; transform: scale(1);}
+            100% { text-shadow: 0 0 12px #ffbb33; transform: scale(1.02);}
+        }
+        .programmer-footer {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #bbaa77;
+            border-top: 1px dashed #d4af37;
+            padding-top: 18px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: baseline;
+        }
+        .programmer-footer a {
+            color: #ffcf6e;
+            text-decoration: none;
+            font-weight: bold;
+            background: #1e1a0c;
+            padding: 5px 14px;
+            border-radius: 40px;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .programmer-footer a:hover {
+            background: #e4b13b;
+            color: #000;
+            box-shadow: 0 0 12px gold;
+        }
+        .music-status {
+            background: #11100b;
+            color: #ecc45e;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            width: fit-content;
+            margin: 12px auto 0;
+            border: 1px solid #ffd966;
+        }
+        .floating-bubble {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+            font-size: 1.8rem;
+            animation: floatUp 3s ease-out forwards;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-200px) scale(1.4); opacity: 0; }
+        }
+        .special-note {
+            font-size: 1rem;
+            color: #ffdd99;
+            margin-top: 12px;
+        }
+        @media (max-width: 550px) {
+            .main-greeting { font-size: 1.5rem; }
+            .open-letter { font-size: 1.3rem; padding: 10px 28px; }
+            .message-content { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="bg"><div id="dynamicStars"></div><div class="crescent"></div></div>
+<div class="card">
+    <!-- تم حذف منطقة bubbles-area بالكامل التي كانت تحتوي على المعايدة الثلاثة -->
+    <div class="greeting-message">
+        <div class="main-greeting">🌙 تهنئة بحلول عيد الفطر المبارك 🌙</div>
+    </div>
+    <div class="open-btn-wrapper">
+        <button class="open-letter" id="openLetterBtn">✨ فتح الرسالة</button>
+    </div>
+    <div id="hiddenMessageBox" class="hidden-message">
+        <div class="message-content" id="revealMessage"> <span>كل عام وانت بخير وعيدك مُبارك </span>✨<br>ينعاد عليك بل صحة والعافية وراحة البال يارب تحقيق كل احلامك ويتحقق الشي الي بالك وتصير ب اعلة المراتب ✨</div>
+        <div class="special-note">🌟 تقبل الله صيامكم وقيامكم 🌟</div>
+    </div>
+    <div class="programmer-footer">
+        <span>💻 المبرمج - EAN</span>
+        <a href="https://t.me/Xiil6" target="_blank" rel="noopener noreferrer">📱 رابط التليجرام: @Xiil6</a>
+    </div>
+    <div class="music-status" id="musicStatusLabel">🎵 اضغط في أي مكان لتشغيل الأغنية 🎵</div>
+</div>
+<audio id="eidAudio" preload="auto" loop></audio>
+<script>
+(function(){
+    const stars=document.getElementById('dynamicStars');
+    for(let i=0;i<160;i++){let s=document.createElement('div');s.className='star';let sz=Math.random()*4+1.8;s.style.width=sz+'px';s.style.height=sz+'px';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.animationDuration=Math.random()*2.5+0.8+'s';s.style.animationDelay=Math.random()*3+'s';stars.appendChild(s);}
+})();
+const audio=document.getElementById('eidAudio'),musicStatus=document.getElementById('musicStatusLabel'),openBtn=document.getElementById('openLetterBtn'),hiddenMsg=document.getElementById('hiddenMessageBox');
+audio.src="https://files.catbox.moe/jucd35.mp3";audio.loop=true;audio.volume=0.75;
+let musicPlaying=false,msgOpened=false;
+function playMusic(){
+    if(musicPlaying)return true;
+    return audio.play().then(()=>{musicPlaying=true;musicStatus.innerHTML='🎶 هاي ليلة الناس معيدين .. عيد مبارك 🎶';musicStatus.style.background="#2c2b1f";sparkleConfetti();return true;}).catch(()=>{musicStatus.innerHTML='🔊 اضغط على البطاقة أو الزر لتشغيل الأغنية 🔊';return false;});
+}
+function createBubbles(){
+    for(let i=0;i<20;i++)setTimeout(()=>{let b=document.createElement('div');b.className='floating-bubble';const icons=['🎈','🎉','✨','🌙','⭐','🏮','🎊','💫','🌟','🍬','🎁','❤️'];b.innerText=icons[Math.floor(Math.random()*icons.length)];b.style.left=Math.random()*window.innerWidth+'px';b.style.bottom='-20px';b.style.fontSize=(Math.random()*28+20)+'px';b.style.animationDuration=(Math.random()*2.5+2)+'s';document.body.appendChild(b);setTimeout(()=>b.remove(),3000);},i*80);
+}
+function showMessage(){
+    if(!hiddenMsg.classList.contains('show')){
+        hiddenMsg.classList.add('show');msgOpened=true;
+        const msgC=document.getElementById('revealMessage');
+        msgC.style.background="linear-gradient(145deg, #264d26, #0f2f0a)";msgC.style.color="#fff2bf";msgC.style.border="2px solid #ffcd7e";msgC.style.boxShadow="0 0 25px rgba(255,200,70,0.8)";
+        const spanEl=msgC.querySelector('span');if(spanEl)spanEl.style.animation="gentlePulse 0.8s infinite alternate";
+        createBubbles();
+        for(let s=0;s<40;s++)setTimeout(()=>{let p=document.createElement('div');p.style.position='fixed';p.style.width='7px';p.style.height='7px';p.style.background=`hsl(${Math.random()*50+35},95%,65%)`;p.style.borderRadius='50%';p.style.left=Math.random()*window.innerWidth+'px';p.style.top=Math.random()*window.innerHeight+'px';p.style.pointerEvents='none';p.style.zIndex='1000';p.style.boxShadow='0 0 6px gold';document.body.appendChild(p);p.animate([{transform:'scale(0)',opacity:1},{transform:'scale(1.7)',opacity:0}],{duration:700,fill:'forwards'});setTimeout(()=>p.remove(),800);},s*25);
+        musicStatus.innerHTML=musicPlaying?'🎉✨ تم فتح الرسالة! عيد مبارك ✨🎉':'🎉✨ رسالة مباركة مفتوحة! اضغط لتشغيل الأغنية ✨🎉';
+        setTimeout(()=>{if(musicPlaying)musicStatus.innerHTML='🎶 هاي ليلة الناس معيدين .. عيد مبارك 🎶';else musicStatus.innerHTML='🎵 اضغط في أي مكان لتشغيل الأغنية 🎵';},3500);
+        extraFloatingBless();
+    }
+}
+function extraFloatingBless(){
+    let blessDiv=document.createElement('div');blessDiv.innerText='🌟 كل عام وأنت بخير 🌟';blessDiv.style.position='fixed';blessDiv.style.bottom='30%';blessDiv.style.left='50%';blessDiv.style.transform='translateX(-50%)';blessDiv.style.background='#000000aa';blessDiv.style.color='#ffea9e';blessDiv.style.padding='10px 25px';blessDiv.style.borderRadius='50px';blessDiv.style.fontSize='1.4rem';blessDiv.style.fontWeight='bold';blessDiv.style.zIndex='2000';blessDiv.style.backdropFilter='blur(12px)';blessDiv.style.border='2px solid #ffcc66';blessDiv.style.whiteSpace='nowrap';blessDiv.style.fontFamily='inherit';document.body.appendChild(blessDiv);blessDiv.animate([{opacity:0,transform:'translateX(-50%) scale(0.8)'},{opacity:1,transform:'translateX(-50%) scale(1)'},{opacity:0,transform:'translateX(-50%) scale(1.2)'}],{duration:2300,fill:'forwards'});setTimeout(()=>blessDiv.remove(),2300);
+}
+function sparkleConfetti(){
+    for(let i=0;i<30;i++)setTimeout(()=>{let c=document.createElement('div');c.style.position='fixed';c.style.width='8px';c.style.height='8px';c.style.background=`hsl(${Math.random()*50+40},100%,60%)`;c.style.borderRadius='50%';c.style.left=Math.random()*window.innerWidth+'px';c.style.top=Math.random()*window.innerHeight+'px';c.style.pointerEvents='none';c.style.zIndex='1001';document.body.appendChild(c);c.animate([{transform:'scale(0)',opacity:0.8},{transform:'scale(1.8)',opacity:0}],{duration:700,fill:'forwards'});setTimeout(()=>c.remove(),700);},i*40);setTimeout(()=>createBubbles(),150);
+}
+openBtn.addEventListener('click',(e)=>{e.stopPropagation();if(!musicPlaying)playMusic();if(!hiddenMsg.classList.contains('show'))showMessage();else{createBubbles();const rdiv=document.getElementById('revealMessage');if(rdiv){rdiv.style.transform="scale(1.02)";setTimeout(()=>{if(rdiv)rdiv.style.transform="";},300);}}});
+function globalPlay(){if(!musicPlaying)playMusic();}
+['click','touchstart'].forEach(ev=>document.addEventListener(ev,globalPlay,{once:false}));
+window.addEventListener('load',()=>setTimeout(()=>{if(!musicPlaying)playMusic();},400));
+setInterval(()=>{if(musicPlaying||hiddenMsg.classList.contains('show'))if(Math.random()>0.7){let fb=document.createElement('div');fb.className='floating-bubble';const arr=['🎈','✨','🌙','🏮','⭐','🎉'];fb.innerText=arr[Math.floor(Math.random()*arr.length)];fb.style.left=Math.random()*window.innerWidth+'px';fb.style.bottom='-10px';fb.style.fontSize=(Math.random()*24+16)+'px';fb.style.animationDuration=(Math.random()*2.8+2)+'s';document.body.appendChild(fb);setTimeout(()=>fb.remove(),2800);}},3000);
+const cardDiv=document.querySelector('.card');cardDiv.addEventListener('click',(e)=>{if(!musicPlaying)playMusic();if(!hiddenMsg.classList.contains('show')){musicStatus.innerHTML='💌 اضغط على زر "فتح الرسالة" ❣️ لترى المعايدة المميزة 💌';setTimeout(()=>{if(!musicPlaying)musicStatus.innerHTML='🎵 اضغط لتشغيل الأغنية 🎵';else if(!hiddenMsg.classList.contains('show'))musicStatus.innerHTML='🎶 اضغط الزر الذهبي لفتح الرسالة 🎶';else musicStatus.innerHTML='🎶 عيد مبارك 🎶';},2500);}});
+new MutationObserver(muts=>{muts.forEach(m=>{if(m.attributeName==='class'&&hiddenMsg.classList.contains('show')&&!msgOpened){msgOpened=true;createBubbles();const innerDiv=document.getElementById('revealMessage');if(innerDiv){innerDiv.style.background="linear-gradient(145deg, #1c4d1c, #0b2f0b)";innerDiv.style.color="#ffffcc";}extraFloatingBless();}});}).observe(hiddenMsg,{attributes:true});
+openBtn.addEventListener('click',()=>setTimeout(()=>{if(hiddenMsg.classList.contains('show'))extraFloatingBless();},120));
+</script>
+</body>
+</html>
